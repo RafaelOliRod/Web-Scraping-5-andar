@@ -1,4 +1,4 @@
-Real Estate Web Scraping - Brazilian Website
+Quinto Andar Web Scraping - Brazilian Website
 
 This project consists of a web scraping script to collect data from a famous Brazilian website for buying and renting properties. The goal is to extract useful information about the listed properties, such as price, location, size, number of rooms, among others.
 Motivation
