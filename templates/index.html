@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraping Quinto Andar</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .loading {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .loading-message {
+            text-align: center;
+            margin-top: 10px;
+            color: #777;
+        }
+
+        .loading-progress {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #007bff;
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Web Scraping Quinto Andar</h1>
+        <form id="scrapeForm" action="/scrape" method="post" onsubmit="showLoading()">
+            <label for="url">URL do Quinto Andar:</label><br>
+            <input type="text" id="url" name="url" value="https://www.quintoandar.com.br/alugar/imovel/tijuca-rio-de-janeiro-rj-brasil/apartamento/1-2-3-4-quartos"><br>
+            <button type="submit">Scrape</button>
+        </form>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function openPopup() {
+            alert("Download Concluído!");
+        }
+
+        function downloadFile(filename) {
+            fetch(`/${filename}`)
+                .then(response => {
+                    if (response.ok) {
+                        response.blob().then(blob => {
+                            openPopup();
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = url;
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);                      
+                        });
+                    } else {
+                        alert('Erro ao realizar o download');
+                    }
+                })
+                .catch(() => {
+                    alert('Erro ao realizar o download');
+                });
+        }
+        
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
