@@ -62,6 +62,18 @@ def scrape(url):
 
     try:
         driver.get(url)
+
+        # Aguardar um tempo para o carregamento inicial da página
+        time.sleep(5)
+
+        # Loop para clicar no botão "Ver mais" até que não haja mais elementos para carregar
+        while True:
+            if not click_ver_mais(driver):
+                break
+            # Aguardar um tempo para o carregamento após cada clique
+            time.sleep(5)
+
+        # Após carregar todas as informações, prosseguir com o scraping
         page = driver.page_source
         soup = BeautifulSoup(page, 'html.parser')
 
@@ -111,23 +123,15 @@ def scrape(url):
             num_vagas = size_parts[2].strip().split()[
                 0] if len(size_parts) > 2 else 0
 
-            data.append([title, size, num_quartos, num_vagas, address,
+            data.append([size, num_quartos, num_vagas, address,
                         neighborhood, city, price_rent, price_total, link])
-        posts = soup.select(
-            "div.sc-ciZhAO.rBvdj.Cozy__FindHouseCard-Container")
+
+        posts = soup.find_all('div', class_='sc-1uhd8i-1 bTndEd')
+
         for post in posts:
             extract_data(post)
 
-        while click_ver_mais(driver):
-            time.sleep(5)
-            page = driver.page_source
-            soup = BeautifulSoup(page, 'html.parser')
-            new_posts = soup.select(
-                "div.sc-ciZhAO.rBvdj.Cozy__FindHouseCard-Container")
-            for post in new_posts:
-                extract_data(post)
-
-        df = pd.DataFrame(data, columns=['Tipo', 'Tamanho m²', 'Quartos', 'Vagas de Garagem',
+        df = pd.DataFrame(data, columns=['Tamanho m²', 'Quartos', 'Vagas de Garagem',
                                          'Endereço', 'Bairro', 'Cidade', 'Preço Aluguel', 'Preço Total', 'Link'])
 
         df = df.drop_duplicates()
@@ -148,10 +152,10 @@ def scrape(url):
             r'\D', '', regex=True)
         df['Preço Total'] = df['Preço Total'].str.replace(
             r'\D', '', regex=True)
-        
+
         # Reordenar as colunas para ter "Preço Total" após "Preço Aluguel"
-        df = df[['Tipo', 'Endereço', 'Bairro', 'Cidade', 'Tamanho m²',
-             'Quartos', 'Vagas de Garagem', 'Preço Aluguel', 'Preço Total', 'Link']]
+        df = df[['Endereço', 'Bairro', 'Cidade', 'Tamanho m²',
+                 'Quartos', 'Vagas de Garagem', 'Preço Aluguel', 'Preço Total', 'Link']]
 
         output = io.BytesIO()
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
