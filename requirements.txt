@@ -1,8 +1,7 @@
-os
+pandas
 re
 io
 selenium 
 bs4
 time
-pandas
 flask
