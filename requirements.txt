@@ -2,7 +2,7 @@ os
 re
 io
 selenium 
-webdriver_manager.firefox 
+webdriver_manager
 bs4
 time
 pandas
