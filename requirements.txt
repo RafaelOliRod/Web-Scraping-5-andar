@@ -2,5 +2,4 @@ pandas
 selenium
 bs4
 flask
-time
 webdriver_manage
