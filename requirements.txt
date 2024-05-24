@@ -1,0 +1,10 @@
+os
+re
+io
+selenium 
+7
+webdriver_manager.firefox 
+bs4
+time
+pandas
+flask
