@@ -1,5 +1,5 @@
 from flask import Flask, request, send_from_directory, render_template, redirect, url_for
-from scraper import scrape
+from scraper import scrape  # supondo que você tenha um módulo chamado scraper.py
 import os
 import webbrowser
 
